@@ -11,10 +11,11 @@ module.exports = (sequelize) => {
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false,
+      unique:true,
+      allowNull: false
     },
     resumen:{
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull:false
     },
     health:{
@@ -22,7 +23,7 @@ module.exports = (sequelize) => {
       allowNull: false
     },
     instruccions:{
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false
     }
 
