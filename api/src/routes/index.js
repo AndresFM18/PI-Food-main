@@ -22,7 +22,9 @@ router.get('/recipes', async function (req, res) {
           return res.send(respuesta)
         }
       })
-  } else { return res.send('No se ha ingresado query correcta') }
+  } else { await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true`)
+  .then((response)=>{ respuesta = response.data.results})
+    return res.send(respuesta) }
 });
 
 router.get('/recipes/:id', async function (req, res) {
@@ -77,6 +79,13 @@ router.get('/recipes/:id', async function (req, res) {
 router.post('/recipes', async function (req, res) {
 
   const { name, resumen, health, instruccions, } = req.body
+  let Health_Number = Number(health);
+  if(typeof name != 'string' || typeof resumen != 'string' || typeof instruccions != 'string'){
+    return res.send('Algun dato es incorrecto')
+  }
+  if(isNaN(Health_Number)){
+    return res.send('El Health debe ser un numero');
+  }
   try {
     await Recipe.create({
       name: name,
@@ -114,6 +123,7 @@ router.get('/diets', async function (req, res) {
       })
   }
 })
+
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 
