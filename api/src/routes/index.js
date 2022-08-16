@@ -11,7 +11,7 @@ const router = Router();
 
 router.get('/recipes', async function (req, res) {
   const nombre = req.query.nombre
-
+  let respuesta = []
   if (nombre) {
     await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&query=${nombre}`)
       .then((response) => { respuesta = response.data.results })
@@ -19,7 +19,8 @@ router.get('/recipes', async function (req, res) {
         if (respuesta[0] == undefined) {
           return res.send('no hay resultados para la busqueda')
         } else {
-          return res.send(respuesta)
+          let arreglo = respuesta.map((x)=>{return {id:x.id,name:x.title, healthy:x.healthScore,diets:x.diets,image:x.image}})
+          return res.send(arreglo)
         }
       })
   } else { await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true`)

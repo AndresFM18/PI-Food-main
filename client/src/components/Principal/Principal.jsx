@@ -35,15 +35,15 @@ const Principal = () => {
     return (
 
         <div>
-
-            <div className='Busqueda'>
-                <form >
+             <div className='Busqueda'>
+                
                     <input value={nombre} placeholder='Ingrese un nombre de una receta' onChange={(e)=>{nameValidator(e)}} type="text" name='SearchBar' />
                     <div className="message-error">{errors ? <p>{errors.name}</p> : null} </div>
-                    <button disabled={errors.name && 'true'} onClick={dispatch(searchBar(nombre))} name='SearchBar_Button'>Search</button>
-                </form>
+                    <button disabled={errors.name && 'true'} onClick={()=>{(dispatch(searchBar(nombre)))}} name='SearchBar_Button'>Search</button>
+                
 
             </div>
+          
 
             <div>
                 <h3>Filtros:</h3>
@@ -56,7 +56,7 @@ const Principal = () => {
             </div>
             <h1>Recetas:</h1>
 
-            {recipes ? recipes.map(x => { return <RecipeCard id={x.id} name={x.name} image={x.image} title={x.title} diets={x.diets} healthscore={x.health} /> }) : <h1>cargando</h1>}
+            {recipes ? recipes.map(x => { return <RecipeCard healthy={x.healthy} id={x.id} name={x.name} image={x.image} title={x.title} diets={x.diets} healthscore={x.health} /> }) :<h1>CARGANDO...</h1>}
 
             <div>
                 {apoyopaginado.map((x) => { return <a href={url(x)} className='links'>{x}</a> })}

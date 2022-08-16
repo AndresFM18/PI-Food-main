@@ -1,0 +1,10 @@
+.container{
+    height: 500px;
+    width: 300px;
+    position: relative;
+   left:500px;
+   border-style:outset;
+   border-width: 3em;
+}
+h3.cursiv {font-family: cursive;}
+p.cursiv {font-family: cursive;}
