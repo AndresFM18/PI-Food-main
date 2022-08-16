@@ -32,27 +32,40 @@ router.get('/recipes/:id', async function (req, res) {
   const Number_id = Number(id);
 
   if (isNaN(Number_id)) {
-    return res.send('el id debe ser un numero')
+    try {
+      return res.send('el id debe ser un numero')
+    } catch (error) {
+      return res.send(error.message)
+    } 
   }
   if (Number_id <= 0) {
-    res.send('El id debe ser mayor a 0')
+    try {
+      return res.send('El id debe ser mayor a 0')
+    } catch (error) {
+      return res.send(error.message)
+    } 
   }
   if (Number_id % 1 != 0) {
-    return res.send('El id no puede ser decimal ' + Number_id)
+    try{
+      return res.send('El id no puede ser decimal ' + Number_id)
+    } catch(error){
+      return res.send(error.message)
+    }
   }
   if (Number_id > 1165539) {
-
-    await Recipe.findByPk(Number_id, {
+    try {
+       await Recipe.findByPk(Number_id, {
       include: Diet,
     })
       .then((reciped) => {
-        if (reciped === null) {
-          return res.send('No existe el una receta con el id: ' + Number_id + ' En la base de datos');
-        }
-        return res.send(reciped)
+        return res.send(reciped);
       })
-  }
-  try {
+    } catch (error) {
+      return res.send(error.message);
+    }
+   
+  }else{
+    try {
     await axios.get(`https://api.spoonacular.com/recipes/${Number_id}/information?apiKey=${API_KEY}`)
       .then((response) => { respuesta = response.data })
       .then(() => {
@@ -69,10 +82,8 @@ router.get('/recipes/:id', async function (req, res) {
   } catch (error) {
     return res.send(error.message)
   }
-
-
-
-
+  }
+  
 
 })
 
@@ -122,6 +133,26 @@ router.get('/diets', async function (req, res) {
         return res.send(result)
       })
   }
+})
+
+router.get('/database', async function (req, res){
+try {
+  await Recipe.findAll()
+  .then((recetas)=>{return res.send(recetas)})
+} catch (error) {
+  return res.send(error.message)
+}
+})
+
+router.get('/apicall/:length', async function(req, res){
+const length = req.params.length
+try {
+  await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&number=${length}&addRecipeInformation=true`)
+  .then((response) => { 
+  return res.send(response.data.results)})
+} catch (error) {
+  return res.send(error.message)
+} 
 })
 
 // Configurar los routers
