@@ -52,7 +52,8 @@ await axios.get(`http://localhost:3001/apicall/${100-arreglodb.length}`)
     name: x.title,
     image: x.image,
     imageType: x.imageType,
-    health:x.healthScore}})    
+    health:x.healthScore,
+    diets:x.diets}})    
 })
 
 let arraydefinitivo = arreglodb.concat(arregloapi)

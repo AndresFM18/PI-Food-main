@@ -1,7 +1,8 @@
 import React from 'react';
-import { useState} from 'react';
+import { useState } from 'react';
 import './CreateRecipe.css';
 import axios from 'axios';
+import NavBar from '../NavBar/NavBar';
 
 
 
@@ -15,19 +16,19 @@ function CreateRecipe() {
     const [message, setMessage] = useState("");
     const [errors, setErrors] = useState({});
 
-  
+
     const noNumbers = /^([^0-9]*)$/
     const Numbers = /^[0-9]*$/
-  
-   
 
-   
-    
+
+
+
+
     function nameValidator(e) {
         setName(e.target.value);
         if (noNumbers.test(e.target.value)) {
             setErrors({ ...errors, name: '' })
-        } 
+        }
         else {
             setErrors({ ...errors, name: 'El nombre no puede contener numeros' })
         }
@@ -53,9 +54,9 @@ function CreateRecipe() {
     function instruccionsValidator(e) {
         setInstruccions(e.target.value);
         //if (noNumbers.test(e.target.value)) {
-           /// setErrors({ ...errors, instruccions: '' })
+        /// setErrors({ ...errors, instruccions: '' })
         //} else {
-           // setErrors({ ...errors, instruccions: 'las instruccions no deben contener numeros' })
+        // setErrors({ ...errors, instruccions: 'las instruccions no deben contener numeros' })
         //}
     }
     let verdadAbsoluta = (errors) => {
@@ -93,44 +94,67 @@ function CreateRecipe() {
         }
     }
     return (
+        <div>
+            <div>
+                <NavBar></NavBar>
+            </div>
+            <div className='formulario'>
+                <div class="formulario-contacto">
 
-        <div className='formulario'>
-            <div><h1 className='titulo'>Create your recipe</h1></div>
-            <form onSubmit={post}>
-                <input type="text"
-                    value={name}
-                    placeholder='Nombre'
-                    onChange={(e) => { nameValidator(e) }}
-                />
-                <div className="message-error">{errors ? <p>{errors.name}</p> : null} </div>
+                    <div class="formulario-imagen-trasera">
+                        <img src="https://p4.wallpaperbetter.com/wallpaper/40/140/49/food-pasta-meat-still-life-wallpaper-preview.jpg" alt="NOIMG" />
+                    </div>
 
-                <input type="text"
-                    value={resumen}
-                    placeholder='Resumen'
-                    onChange={(e) => { resumenValidator(e) }}
-                />
-                <div className="message-error">{errors ? <p>{errors.resumen}</p> : null} </div>
+                    <div class="formulario-imagen-frontal">
+                      
+                        <p>CREA TU RECETA</p>
+                    </div>
 
-                <input type="number"
-                    value={health}
-                    placeholder='Health-Value'
-                    onChange={(e) => { healthValidator(e) }}
-                />
-                <div className="message-error">{errors ? <p>{errors.health}</p> : null} </div>
-                <input type="text"
-                    value={instruccions}
-                    placeholder='Instruccions'
-                    onChange={(e) => { instruccionsValidator(e) }}
-                />
-                <div className="message-error">{errors ? <p>{errors.instruccions}</p> : null} </div>
+                </div>
+                <div className='formulario-sugerencias'>
+                    <form onSubmit={post}>
+                        <label>Nombre</label>
+                        
+                        <input type="text"
+                            value={name}
+                            placeholder='Ingrese el nombre de la receta...'
+                            onChange={(e) => { nameValidator(e) }}
+                        />
+                        <div className="message-error">{errors ? <p>{errors.name}</p> : null} </div>
+                        <label> Resumen</label>
+                        <input type="text"
+                            value={resumen}
+                            placeholder='Ingrese el Resumen de su receta...'
+                            onChange={(e) => { resumenValidator(e) }}
+                        />
+                        <div className="message-error">{errors ? <p>{errors.resumen}</p> : null} </div>
+                        <label>Puntaje saludable</label>
+                        <input type="number"
+                            value={health}
+                            placeholder='Health-Value'
+                            onChange={(e) => { healthValidator(e) }}
+                        />
+                        <div className="message-error">{errors ? <p>{errors.health}</p> : null} </div>
+                        <label>Intrucciones</label>
+                        <input type="text"
+                            value={instruccions}
+                            placeholder='Introduzca sus instrucciones...'
+                            onChange={(e) => { instruccionsValidator(e) }}
+                        />
+                        <div className="message-error">{errors ? <p>{errors.instruccions}</p> : null} </div>
 
-                <div className="message">{message ? <p>{message}</p> : null} </div>
-                
-                
-                <button type="submit" disabled={verdadAbsoluta(errors) && 'true'}>Create Recipe</button>
+                        <div className="message">{message ? <p>{message}</p> : null} </div>
 
-            </form>
+
+                        <button type="submit" disabled={verdadAbsoluta(errors) && 'true'}>Create Recipe</button>
+
+                    </form>
+                </div>
+
+            </div>
         </div>
+
+
     );
 }
 

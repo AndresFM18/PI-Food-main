@@ -13,7 +13,7 @@ router.get('/recipes', async function (req, res) {
   const nombre = req.query.nombre
   let respuesta = []
   if (nombre) {
-    await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&query=${nombre}`)
+    await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&query=${nombre}&addRecipeInformation=true`)
       .then((response) => { respuesta = response.data.results })
       .then(() => {
         if (respuesta[0] == undefined) {

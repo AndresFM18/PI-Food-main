@@ -3,7 +3,8 @@ import { getPaginatedRecipes, alphabeticOrder, healthOrder, searchBar } from '..
 import RecipeCard from '../RecipeCard/RecipeCard';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-
+import NavBar from '../NavBar/NavBar';
+import './Principal.css';
 
 
 
@@ -35,11 +36,15 @@ const Principal = () => {
     return (
 
         <div>
-             <div className='Busqueda'>
+            <NavBar>
                 
-                    <input value={nombre} placeholder='Ingrese un nombre de una receta' onChange={(e)=>{nameValidator(e)}} type="text" name='SearchBar' />
+            </NavBar>
+             <div className='Modifiers'>
+                
+                    <input className='search' value={nombre} placeholder='Ingrese un nombre de una receta' onChange={(e)=>{nameValidator(e)}} type="text" name='SearchBar' />
+                    <button className='boton' disabled={errors.name && 'true'} onClick={()=>{(dispatch(searchBar(nombre)))}} name='SearchBar_Button'>Buscar</button>
                     <div className="message-error">{errors ? <p>{errors.name}</p> : null} </div>
-                    <button disabled={errors.name && 'true'} onClick={()=>{(dispatch(searchBar(nombre)))}} name='SearchBar_Button'>Search</button>
+                   
                 
 
             </div>
@@ -51,15 +56,22 @@ const Principal = () => {
                 <button onClick={() => { dispatch(healthOrder(recipes)) }} name='Health_Filter'>Health Score</button>
 
             </div>
-            <div>
-                {apoyopaginado.map((x) => { return <a href={url(x)}>{x}</a> })}
+            <div className='menu-grande2'>
+                <ul>
+                      {apoyopaginado.map((x) => { return <a className='paginado-link'  href={url(x)}>{x+1}</a> })}
+                </ul>
+              
             </div>
             <h1>Recetas:</h1>
-
-            {recipes ? recipes.map(x => { return <RecipeCard healthy={x.healthy} id={x.id} name={x.name} image={x.image} title={x.title} diets={x.diets} healthscore={x.health} /> }) :<h1>CARGANDO...</h1>}
-
-            <div>
-                {apoyopaginado.map((x) => { return <a href={url(x)} className='links'>{x}</a> })}
+           
+             {recipes ? recipes.map(x => { return <RecipeCard healthy={x.healthy} id={x.id} name={x.name} image={x.image} title={x.title} diets={x.diets} healthscore={x.health} /> }) :<h1>CARGANDO...</h1>}   
+          
+            
+            <div className='menu-grande2'>
+                <ul>
+                {apoyopaginado.map((x) => { return <a className='paginado-link' href={url(x)} >{x+1}</a> })}
+                </ul>
+                
             </div>
         </div>
 
